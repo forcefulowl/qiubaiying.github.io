@@ -3,7 +3,7 @@ title: Gavin Blog
 SEOTitle: 高飞的博客 | Gavin Blog
 header-img: img/post-bg-desk.jpg
 email: forcefulowl@gmail.com
-description: "Every failure is leading towards success."
+description: "We came, we saw, we conquered."
 keyword: "deep learning"
 url: "http://forcefulowl.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
@@ -11,7 +11,7 @@ github_repo: "https://github.com/forcefulowl/forcefulowl.github.io.git" # you co
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "Goals determine what you going to be!"
+sidebar-about-description: "Let's show them who we are!"
 sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
@@ -19,9 +19,9 @@ sidebar-avatar: /img/about-BY-gentle.jpg      # use absolute URL, seeing it's us
 # SNS settings
 RSS: false
 # weibo_username:     qiubaiying
-zhihu_username:     高飞
+zhihu_username:     forcefulowl
 github_username:    forcefulowl
-facebook_username:  forcefulowl
+facebook_username:  Fei Gao
 #jianshu_username:   e71990ada2fd
 #twitter_username:   qiubaiying
 
@@ -81,7 +81,7 @@ disqus_username: forcefulowl
 
 # Featured Tags
 featured-tags: true                     # 是否使用首页标签
-featured-condition-size: 1              # 相同标签数量大于这个数，才会出现在首页
+featured-condition-size: 0              # 相同标签数量大于这个数，才会出现在首页
 
 
 
