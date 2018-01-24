@@ -1,0 +1,63 @@
+---
+layout: post
+title:  KNN
+subtitle:   Deep learning
+date:   2018-01-23
+author: gavin
+header-img: img/post-bg-deeplearning.png
+catalog:    true
+tags:
+    - deep learning
+---
+
+>K-nearest-neighbor
+
+# KNN
+
+### description
+
+KNN是一种用于分类和回归的非参数统计(nonparametric)方法，非参数统计即不对样本分布做假设，直接分析样本的一类统计方法。
+简单来说, KNN指训练完train set后，当给出test时，根据离test距离最近的k个train的值，确定test的值。
+这里距离test的距离分为两种：L1 distance/ L2 distance。L1 distance也叫manhattan distance，计算的是两点在坐标系上的截距总和，因此L1 distance依赖coordinate system; L2 distance也叫Euclidean distance，计算的是两点的直线距离，不依赖coordinate system。
+
+在KNN中，K被称为hyper-parameter，需要我们在训练的时候调整来达到better performance。目前比较好的方法是把数据分为train, validation, test。训练train set, 用validation set evaluate， 找到best performance的k去跑test。
+
+KNN不适合用于vision recognition。
+
+附上KNN demo: [KNN](http://vision.stanford.edu/teaching/cs231n-demos/knn/)
+
+### Implementation(iris)
+
+```python
+
+from sklearn.datasets import load_iris  
+from sklearn import neighbors  
+import sklearn
+iris = load_iris()
+knn = neighbors.KNeighborsClassifier().fit(iris.data, iris.target)
+predict = knn.predict([[0.1,0.2,0.3,0.4]])
+print(predict)
+print iris.target_names[predict]
+
+```
+
+About `sklearn.neighbor.KNeighborsClassifier()`
+```python
+###other example
+X = [[0], [1], [2], [3]]
+y = [0, 0, 1, 1]
+from sklearn.neighbors import KNeighborsClassifier
+neigh = KNeighborsClassifier(n_neighbors=3).fit(X,y)
+print(neigh.predict([[1.1]]))
+
+```
+Some methods:
+
+Name | description
+---- | -----------
+fit(X,y) | Fit the model using X as training data and y as target values
+predict(X) | Predict the class labels for the provided data
+predict_proba(X) | Return probability estimates for the test data X.
+
+more details:[sklearn.neighbors.KNeighborsClassifier()](http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+
