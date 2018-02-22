@@ -38,6 +38,8 @@ group = 8
 numsofParams = 8 * 32 * 3 * 3 * 32
 ```
 
+![avatar](/img/ShuffleNet/GConv)
+
 ### Depthwise Separable Convolutions
 
 ```
