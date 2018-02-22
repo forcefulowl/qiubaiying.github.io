@@ -22,6 +22,21 @@ The new architecture utilizes two new operations:
 
 - channel shuffle
 
+### Group Convolution
+
+GConv was first introduced in AlexNet for distributing the model over two GPUs, which can reduce FLOPs.
+
+```
+inputChannel = 256
+outputChannel = 256
+kernelSize = 3 * 3
+numsofParams = 256 * 3 * 3 * 256
+
+group = 8
+# input channel of each group = 32
+# output channel of each group = 32
+numsofParams = 8 * 32 * 3 * 3 * 32
+```
 
 
 
