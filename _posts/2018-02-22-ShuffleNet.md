@@ -37,6 +37,11 @@ group = 8
 # output channel of each group = 32
 numsofParams = 8 * 32 * 3 * 3 * 32
 ```
+**Side Effect:** outputs from a certain channel are only derived from a small fraction of input channels.
+
+outputs from a certain group only relate to the inputs within the group.
+
+This property blocks information flow between channel groups and weakens representation.
 
 ![avatar](/img/ShuffleNet/GConv.png)
 
@@ -50,13 +55,9 @@ numsofParams = 3 * 3 * 3 * 256 = 6912
 # DW
 numsofParams = 3 * 3 * 3 + 3 * 1 * 1 * 256 = 795
 ```
+![avatar](/img/ShuffleNet/ShuffleNetUnit.png)
 
 
-#Approach
-
-### Channel Shuffle for GConv
-
-Xception & ResNeXt introduce effcient ***depthwise separable convolutions*** or ***group convolutions***
 
 
 
