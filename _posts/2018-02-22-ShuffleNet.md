@@ -38,5 +38,23 @@ group = 8
 numsofParams = 8 * 32 * 3 * 3 * 32
 ```
 
+### Depthwise Separable Convolutions
+
+```
+inputChannel = 3
+outputChannel = 256
+numsofParams = 3 * 3 * 3 * 256 = 6912
+
+# DW
+numsofParams = 3 * 3 * 3 + 3 * 1 * 1 * 256 = 795
+```
+
+
+#Approach
+
+### Channel Shuffle for GConv
+
+Xception & ResNeXt introduce effcient ***depthwise separable convolutions*** or ***group convolutions***
+
 
 
