@@ -73,11 +73,11 @@ Vanishing Gradient Problem
 
 ![avatar](/img/ShuffleNet/VanishingGradient.png)
 
+residual unit/ bottleneck unit
+
 ![avatar](/img/ShuffleNet/ShuffleNetUnit.png)
 
-1st image is a bottleneck unit (skip connection) with DWConv, which is introduced in ResNet, can 
 
-2nd & 3rd are ShuffleNet unit.
 
 
 
