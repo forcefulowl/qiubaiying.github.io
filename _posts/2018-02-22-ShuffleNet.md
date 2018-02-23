@@ -89,19 +89,27 @@ numsofParams = 256*1*1*64 + 64*3*3*64 + 64*1*1*256 =  69632
 
 ![avatar](/img/ShuffleNet/ShuffleNetChannelShuffle.png)
 
-ShuffleNet with/without channel Shuffle
-<center>诶嘿</center>
+<center>ShuffleNet with/without channel Shuffle</center>
 
 ![avatar](/img/ShuffleNet/ClassificationErrorwithOthers.png)
 
-Classification error vs. various structures
+<center>Classification error vs. various structures</center>
 
 ![avatar](/img/ShuffleNet/vsMobileNet.png)
+
+<center>ShuffleNet vs. MobileNet on ImageNet Classification</center>
+
 ![avatar](/img/ShuffleNet/ComplexityComparison.png)
+
+<center>Complexity comparison.</center>
+
 ![avatar](/img/ShuffleNet/ObjectDetection.png)
+
+<center>Object detection results on MS COCO</center>
+
 ![avatar](/img/ShuffleNet/time.png)
 
-
+<center>Actual inference time on mobile device.</center>
 
 
 
