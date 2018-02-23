@@ -4,7 +4,7 @@ title:  ShuffleNet
 subtitle:   An Extremely Efficient Convolutional Neural Network for Mobile Devices
 date:   2018-02-22
 author: gavin
-header-img: img/post-bg-coffee.jpeg
+header-img: img/shufflenet.jpeg
 catalog:    true
 tags:
     - deep learning
