@@ -69,6 +69,10 @@ numsofParams = 256*1*1*64 + 64*3*3*64 + 64*1*1*256 =  69632
 
 ***ShuffleNet Unit***
 
+Vanishing Gradient Problem
+
+![avatar](/img/ShuffleNet/VanishingGradient.png)
+
 ![avatar](/img/ShuffleNet/ShuffleNetUnit.png)
 
 1st image is a bottleneck unit (skip connection) with DWConv, which is introduced in ResNet, can 
