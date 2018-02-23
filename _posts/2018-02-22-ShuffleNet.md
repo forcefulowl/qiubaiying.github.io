@@ -83,6 +83,8 @@ numsofParams = 256*1*1*64 + 64*3*3*64 + 64*1*1*256 =  69632
 
 <center>The complexity is evaluated with FLOPs.</center>
 
+# Result
+
 ![avatar](/img/ShuffleNet/ClassificationError.png)
 
 <center>Classification error vs. number of groups. (0.5x, 0.25x means reduce channles comparing with original.) </center>
