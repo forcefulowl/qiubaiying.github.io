@@ -18,9 +18,11 @@ ShuffleNet: designed for mobile devices with very limited computing power.
 
 The new architecture utilizes two new operations:
 
+- channel shuffle
+
 - pointwise group convolution
 
-- channel shuffle
+# Channel Shuffle
 
 ### Group Convolution
 
@@ -51,7 +53,7 @@ The left one is an equivalent implementation using channel shuffle.
 
 ![avatar](/img/ShuffleNet/GConv.png)
 
-
+# Pointwise Group Convolution
 
 ### Depthwise Separable Convolutions
 
@@ -67,15 +69,38 @@ numsofParams = 256 * 3 * 3 * 256 = 589824
 numsofParams = 256*1*1*64 + 64*3*3*64 + 64*1*1*256 =  69632
 ```
 
-***ShuffleNet Unit***
-
-Vanishing Gradient Problem
+***Vanishing Gradient Problem***
 
 ![avatar](/img/ShuffleNet/VanishingGradient.png)
 
-residual unit/ bottleneck unit
+***bottleneck unit & ShuffleNet Unit***
 
 ![avatar](/img/ShuffleNet/ShuffleNetUnit.png)
+
+# Network Architexture
+
+![avatar](/img/ShuffleNet/ShuffleNetArchitecture.png)
+
+<center>The complexity is evaluated with FLOPs.</center>
+
+![avatar](/img/ShuffleNet/ClassificationError.png)
+
+<center>Classification error vs. number of groups. (0.5x, 0.25x means reduce channles comparing with original.) </center>
+
+![avatar](/img/ShuffleNet/ShuffleNetChannelShuffle.png)
+
+ShuffleNet with/without channel Shuffle
+<center>诶嘿</center>
+
+![avatar](/img/ShuffleNet/ClassificationErrorwithOthers.png)
+
+Classification error vs. various structures
+
+![avatar](/img/ShuffleNet/vsMobileNet.png)
+![avatar](/img/ShuffleNet/ComplexityComparison.png)
+![avatar](/img/ShuffleNet/ObjectDetection.png)
+![avatar](/img/ShuffleNet/time.png)
+
 
 
 
