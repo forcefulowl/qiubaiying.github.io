@@ -30,32 +30,50 @@ GConv was first introduced in AlexNet for distributing the model over two GPUs, 
 inputChannel = 256
 outputChannel = 256
 kernelSize = 3 * 3
-numsofParams = 256 * 3 * 3 * 256
+numsofParams = 256 * 3 * 3 * 256 = 589824
 
 group = 8
 # input channel of each group = 32
 # output channel of each group = 32
-numsofParams = 8 * 32 * 3 * 3 * 32
+numsofParams = 8 * 32 * 3 * 3 * 32 = 73728
 ```
-**Side Effect:** outputs from a certain channel are only derived from a small fraction of input channels.
+**Side Effect:** 
 
-outputs from a certain group only relate to the inputs within the group.
+Two stacked convolution layers with the same number of groups, each output channel only relates to the input channels within the group, no cross talk.
 
 This property blocks information flow between channel groups and weakens representation.
 
+**Channel Shuffle**
+
+Input and output channels are fully related when GConv2 takes data from different groups after GConv1.
+
+The left one is an equivalent implementation using channel shuffle.
+
 ![avatar](/img/ShuffleNet/GConv.png)
+
+
 
 ### Depthwise Separable Convolutions
 
 ```
-inputChannel = 3
+inputChannel = 256
 outputChannel = 256
-numsofParams = 3 * 3 * 3 * 256 = 6912
+numsofParams = 256 * 3 * 3 * 256 = 589824
 
 # DW
-numsofParams = 3 * 3 * 3 + 3 * 1 * 1 * 256 = 795
+# 1 * 1 * 64 filter
+# 3 * 3 * 64 filter
+# 1 * 1 * 256 filter
+numsofParams = 256*1*1*64 + 64*3*3*64 + 64*1*1*256 =  69632
 ```
+
+***ShuffleNet Unit***
+
 ![avatar](/img/ShuffleNet/ShuffleNetUnit.png)
+
+1st image is a bottleneck unit (skip connection) with DWConv, which is introduced in ResNet, can 
+
+2nd & 3rd are ShuffleNet unit.
 
 
 
