@@ -20,8 +20,7 @@ The original image used in this project is:
 
 Using Salt-pepper, randomly changing the value of pixels to [0,0,0] or [255,255,255].
 
-![avatar](/imageProcessing/img/salt-pepper.png)
-
+<img src='/Image-Processing/img/salt-pepper.png'>
 
 ### Noise Reduction
 ***Average Smooth***
