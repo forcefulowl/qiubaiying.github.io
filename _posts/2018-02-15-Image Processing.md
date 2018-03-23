@@ -10,17 +10,18 @@ tags:
     - python
 ---
 
+
 # Image-Processing
 
 The original image used in this project is:
 
-<img src = '/ip/img/original.png'>
+<img src='/img/ip/original.png' width='300'>
 
 ### Add Noise
 
 Using Salt-pepper, randomly changing the value of pixels to [0,0,0] or [255,255,255].
 
-<img src='/Image-Processing/img/salt-pepper.png'>
+<img src='/img/ip/salt-pepper.png'>
 
 ### Noise Reduction
 ***Average Smooth***
@@ -31,7 +32,7 @@ Using NS5 to caculate the average value.
 
 Using NS9 to caculate the median value. Now using *Median Smooth* on the noised version.
 
-![avatar](/img/median-filter.png)
+<img src='/img/ip/median-filter.png'>
 
 ### Gray-Scale to Binary
 
@@ -44,7 +45,7 @@ And the second one is *Iterative Thresholding*.
 - Caculating the new thrsholding T' = 1/2(a1+a2).<br>a1 = the average of the value of pixel which is larger than T, <br>a2 = the average of the value of pixel which is smaller than T, and caculating the absolute value of (T-T'). 
 - If the result is larger than 1 (whatever), using T' as T to continue the above loop, until the result is smaller than 1, finally, the T' in last loop should be the thresholding in converting.
 
-![avatar](/img/iterative-binary.png)
+<img src='/img/ip/iterative-binary.png'>
 
 ### Label-Component
 
@@ -66,11 +67,11 @@ For e.g., after scanning the whole image for 1 time, the list = [0,1,2,2,3,4], w
 
 The coloring part is easy, just setting some random color to different components. Let's see the result.
 
-![avatar](/img/label1.png)
+<img src='/img/ip/label1.png'>
 
 We can see, there're tons of noises in this image. To get a better performance, we'd better to smooth the binary image before labeling.
 
-![avatar](/img/iterative-smooth.png) ![avatar](/img/label2.png)
+<img src='/img/ip/iterative-smooth.png' width='300'> <img src='/img/ip/label2.png' width='300'>
 
 ### Sharpening
 
@@ -81,31 +82,31 @@ The main idea of image sharpening is, checking the adjacent area and computing t
 `[0,-1,1,0]+[-1,0,0,1]`
 Meanwhile, we can set a thresholding based on Robert's Operator.
 
-<img src='/img/roberts.png' width = '332' height = '300'>
+<img src='/img/ip/roberts.png' width = '332' height = '300'>
 
 ***Sobel Operator***
 
 `x = [1,2,1,0,0,0,-1,-2,-1], y = [1,0,-1,2,0,-2,1,0,-1], result = math.sqrt(x**2+y**2)`
 
-<img src='/img/sobel.png' width = '332' height = '300'>
+<img src='/img/ip/sobel.png' width = '332' height = '300'>
 
 ***Prewitt Operator***
 
 `r1 = [-1,0,1,-1,0,1,-1,0,1], r2 = [1,1,1,0,0,0,-1,-1,-1], result = math.sqrt(r1**2+r2**2)`
 
-<img src='/img/prewitt.png' width = '332' height = '300'>
+<img src='/img/ip/prewitt.png' width = '332' height = '300'>
 
 ***Kirsch Operator***
 
 `r3 = [0,1,1,-1,0,1,-1,-1,0], r4 = [1,1,0,1,0,-1,0,-1,-1], result = max(r1,r2,r3,r4)`
 
-<img src='/img/krisch.png' width = '332' height = '300'>
+<img src='/img/ip/krisch.png' width = '332' height = '300'>
 
 ***Laplacian Operator***
 
 `ori1 = [0,1,0,1,-4,1,0,1,0], ori2 = [1,0,1,0,-4,0,1,0,1], new = [1,1,1,1,-8,1,1,1,1] or [-1,-1,-1,-1,8,-1,-1,-1,-1]`
 
-<img src='/img/laplacian_ori.png' width = '332' height = '300'><img src='/img/laplacian_new.png' width = '332' height = '300'>
+<img src='/img/ip/laplacian_ori.png' width = '332' height = '300'><img src='/img/ip/laplacian_new.png' width = '332' height = '300'>
 
 We can not say which one is better, it depends on different cases.
 
@@ -117,23 +118,23 @@ The main point of pyramid is downsampling the image. Firstly, we should add dumm
 
 The shape of original image is `[300,332,3]`
 
-<img src='/img/pyramid_ori.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_ori.png' width = '332' height = '300'>
 
 After reshaping the image, the shape of image is `[512,512,3]`
 
-<img src='/img/pyramid_reshape.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_reshape.png' width = '332' height = '300'>
 
 Downsampling 1 time to the size `[256,256,3]`
 
-<img src='/img/pyramid_1.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_1.png' width = '332' height = '300'>
 
 Downsampling 2 times to the size `[128,128,3]`
 
-<img src='/img/pyramid_2.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_2.png' width = '332' height = '300'>
 
 Downsampling 3 times to the size `[64,64,3]`
 
-<img src='/img/pyramid_3.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_3.png' width = '332' height = '300'>
 
 ***Upsampling: Zero Order***
 
@@ -161,7 +162,7 @@ Downsampling 3 times to the size `[64,64,3]`
 Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]`
 
 
-<img src='/img/pyramid_zero.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_zero.png' width = '332' height = '300'>
 
 ***Upsampling: First Order***
 
@@ -188,4 +189,4 @@ Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]
 Using First-Order 3 times to upsample the image to the original size `[512,512,3]`
 
 
-<img src='/img/pyramid_first.png' width = '332' height = '300'>
+<img src='/img/ip/pyramid_first.png' width = '332' height = '300'>
