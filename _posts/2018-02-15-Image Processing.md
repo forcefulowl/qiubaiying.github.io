@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  图像处理
-subtitle:   Image Processing
+title:  Image-Processing
+subtitle:   Computer Graphic
 date:   2018-02-15
 author: gavin
-header-img: img/post-bg-coffee.jpeg
+header-img: img/post-bg-ip.jpg
 catalog:    true
 tags:
     - python
@@ -14,7 +14,7 @@ tags:
 
 The original image used in this project is:
 
-![avatar](/img/original.png)
+<img src = '/ip/img/original.png'>
 
 ### Add Noise
 
