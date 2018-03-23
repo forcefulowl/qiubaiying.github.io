@@ -10,445 +10,183 @@ tags:
     - python
 ---
 
->大年三十来一发！
+# Image-Processing
 
-# 图像处理部分
+The original image used in this project is:
 
-### RGB --> Gray-Scale
+![avatar](/img/original.png)
 
-```python
-def rgbToGray(img):
-    row, column, channel = img.shape
-    for i in range(row):
-        for j in range(column):
-            # print('row = ',i,'column = ',j)
-            avglist = img[i,j]
-            avg = int(avglist[0]*0.299 + avglist[1]*0.587 + avglist[2]*0.114)
-            img[i,j] = [avg,avg,avg]
-    return img
-```
-### Histogram
+### Add Noise
 
-```python
-def histogram(img):
-    row,column,channel = img.shape
+Using Salt-pepper, randomly changing the value of pixels to [0,0,0] or [255,255,255].
 
-    list1 = []
-    list2 = []
-
-    for i in range(256):
-        list1.append(0)
-
-    for i in range(256):
-        list2.append(i)
-
-    for i in range(row):
-        for j in range(column):
-            list1.append(img[i][j][0])
-
-    list1 = list1[:-1]
-    plt.hist(list1, bins=list2)
-    plt.show()
-```
-
-### Average Smooth
-
-```python
-def smooth_avg(img):
-    row, column, channel = img.shape
-    img1 = deepcopy(img)
-    for i in range(1,row-1):
-        for j in range(1,column-1):
-            img[i,j,0] = math.floor(img1[i,j,0]*0.2)+math.floor(img1[i-1,j,0]*0.2)+math.floor(img1[i,j-1,0]*0.2)+math.floor(img1[i,j+1,0]*0.2)+math.floor(img1[i+1,j,0]*0.2)
-            #img[i,j,1] = math.floor(img1[i,j,1]*0.2)+math.floor(img1[i-1,j,1]*0.2)+math.floor(img1[i,j-1,1]*0.2)+math.floor(img1[i,j+1,1]*0.2)+math.floor(img1[i+1,j,1]*0.2)
-            #img[i,j,2] = math.floor(img1[i,j,2]*0.2)+math.floor(img1[i-1,j,2]*0.2)+math.floor(img1[i,j-1,2]*0.2)+math.floor(img1[i,j+1,2]*0.2)+math.floor(img1[i+1,j,2]*0.2)
-            img[i,j,1] = img[i,j,2] = img[i,j,0]
-    return img
-
-```
-
-### Salt-Pepper
-
-```python
-def salt_pepper(img):
-    row, column, channel = img.shape
-    nums = int((row * column)*0.1)
-    for i in range(nums):
-        num1 = random.randint(0,row-1)
-        num2 = random.randint(0,column-1)
-        if img[num1,num2,0]>=100:
-            img[num1,num2] = [0,0,0]
-        else:
-            img[num1,num2] = [255,255,255]
-    return img
-```
-### Median Filtering
-
-```python
-def smooth_median(img):
-    row, column, channel = img.shape
-    img1 = deepcopy(img)
-    for i in range(1,row-1):
-        for j in range(1,column-1):
-            list = [img1[i-1,j-1,0],img1[i-1,j,0],img1[i-1,j+1,0],img1[i,j-1,0],img1[i,j,0],img1[i,j+1,0],img1[i+1,j-1,0],img1[i+1,j,0],img1[i+1,j+1,0]]
-            list.sort()
-            img[i,j,0] = img[i,j,1] = img[i,j,2] = list[4]
-    return img
-```
-### Binary Thresholding
-
-```python 
-def binary_thresholding(img, thresholding):
-    row, column, channel = img.shape
-    for i in range(row):
-        for j in range(column):
-            if img[i,j,0] >= thresholding:
-                img[i,j] = [255,255,255]
-            else:
-                img[i,j] = [0,0,0]
-    return img
-```
-### Binary P-Tile
-
-```python
-def binary_ptile(img,x):
-    row, column, channel = img.shape
-    nums = row * column
-    list = []
-    for i in range(row):
-        for j in range(column):
-            list.append(img[i,j,0])
-    list.sort()
-    p = list[int((nums-1)*(1-x*0.01))]
-    for i in range(row):
-        for j in range(column):
-            if img[i,j,0] >= p:
-                img[i,j] = [255,255,255]
-            else:
-                img[i,j] = [0,0,0]
-    return img
-```
-### Iterative Thresholding
-
-```python
-def calculateT(img,thresholding):
-    row, column, channel = img.shape
-    list1 = [255]
-    list2 = [0]
-    for i in range(row):
-        for j in range(column):
-            if img[i,j,0] >= thresholding:
-                list1.append(img[i,j,0])
-            else:
-                list2.append(img[i,j,0])
-    list1.sort() # white
-    list2.sort() # black
-    sum1 = sum2 = 0
-    for m in range(len(list1)):
-        sum1 = sum1 + list1[m]
-    for n in range(len(list2)):
-        sum2 = sum2 + list2[n]
-    avg1 = sum1/len(list1)
-    avg2 = sum2/len(list2)
-    newt = int((avg1+avg2) * 0.5)
-    if abs(newt - thresholding) <= 1:
-        return newt
-    else:
-        return calculateT(img,newt)
+![avatar](/imageProcessing/img/salt-pepper.png)
 
 
-def binary_iterative(img):
-    row, column, channel = img.shape
-    thresholding = random.randint(0,255)
-    newt = calculateT(img, thresholding)
-    binary_thresholding(img, newt)
+### Noise Reduction
+***Average Smooth***
 
-```
-### Label Component
+Using NS5 to caculate the average value.
+
+***Median Smooth***
+
+Using NS9 to caculate the median value. Now using *Median Smooth* on the noised version.
+
+![avatar](/img/median-filter.png)
+
+### Gray-Scale to Binary
+
+The most common way is to set a thresholding, if the value of pixel is larger than that thresholding, setting the value of pixel as [255,255,255], if not, setting it as [0,0,0].
+
+There're two more methods which can achieve the goal, the first one is *P-Tile*, which means the pixel with the top x% value can be converted to white, others should be converted to black.
+
+And the second one is *Iterative Thresholding*. 
+- Setting T as a random number, and appling the T to the common thresholding method. 
+- Caculating the new thrsholding T' = 1/2(a1+a2).<br>a1 = the average of the value of pixel which is larger than T, <br>a2 = the average of the value of pixel which is smaller than T, and caculating the absolute value of (T-T'). 
+- If the result is larger than 1 (whatever), using T' as T to continue the above loop, until the result is smaller than 1, finally, the T' in last loop should be the thresholding in converting.
+
+![avatar](/img/iterative-binary.png)
+
+### Label-Component
+
+The main purpose of *Label-Component* is to detect the number of components the image has. It can be only applied to binary images. The initial value/label of the image is: the label of white part is 1, the label of black part (usually background)
+is 0, we usually say the pixel with label 0 is invalid, and when scaning the whole image, there're three conditions should be followed, for e.g., when scaning img[i][j]:
+- if the label of top and left pixel are invalid, the label of img[i][j] = label ++
+- if one of the label of top and left pixel is invalid, the label of img[i][j] = the label of the valid one.
+- if both the label of top and left pixel are valid,<br>If the label of top = the label of left, the label of img[i][j] = that label.<br>If the label of top and left pixel is different, the label of img[i][j] = the smaller one. And set the equivalent.
+
+In this project, to implement this part, my method is:
+
+- Creating a Matrix with the same size of image. Each position of matrix corresponds to each pixel of image.
+- Initilizing that matrix with label 0 and 1.
+- Creating a list to record the equivalent.
+- If matching the 1st condition above, appending the new label to the list.<br>
+  If matching the 3rd condition above, for e.g., the label of top pixel is 5, the label of left pixel is 4, then setting list[5] = 4. In other words, the larger label should be the child, the smaller label should be its parent.
+  
+For e.g., after scanning the whole image for 1 time, the list = [0,1,2,2,3,4], which means list[0] = 0, list[1] = 1, list[2] = 2, list[3] = 2, list[4] = 3, list[5] = 4. Let's do the second scan, starting from the tail of the list, if list[5] != 5, using 4 as index, list[4] != 4, using 3 as index, list[3] != 3, using 2 as index, list[2] == 2, that's it, and setting list[5] = 2. Finally after second scan, list = [0,1,2,2,2,2], which means label 2,3,4,5 should be in one set, in other words, should be one component.
+
+The coloring part is easy, just setting some random color to different components. Let's see the result.
+
+![avatar](/img/label1.png)
+
+We can see, there're tons of noises in this image. To get a better performance, we'd better to smooth the binary image before labeling.
+
+![avatar](/img/iterative-smooth.png) ![avatar](/img/label2.png)
+
+### Sharpening
+
+The main idea of image sharpening is, checking the adjacent area and computing the variation.
+
+***Robert's Operator***
+
+`[0,-1,1,0]+[-1,0,0,1]`
+Meanwhile, we can set a thresholding based on Robert's Operator.
+
+<img src='/img/roberts.png' width = '332' height = '300'>
+
+***Sobel Operator***
+
+`x = [1,2,1,0,0,0,-1,-2,-1], y = [1,0,-1,2,0,-2,1,0,-1], result = math.sqrt(x**2+y**2)`
+
+<img src='/img/sobel.png' width = '332' height = '300'>
+
+***Prewitt Operator***
+
+`r1 = [-1,0,1,-1,0,1,-1,0,1], r2 = [1,1,1,0,0,0,-1,-1,-1], result = math.sqrt(r1**2+r2**2)`
+
+<img src='/img/prewitt.png' width = '332' height = '300'>
+
+***Kirsch Operator***
+
+`r3 = [0,1,1,-1,0,1,-1,-1,0], r4 = [1,1,0,1,0,-1,0,-1,-1], result = max(r1,r2,r3,r4)`
+
+<img src='/img/krisch.png' width = '332' height = '300'>
+
+***Laplacian Operator***
+
+`ori1 = [0,1,0,1,-4,1,0,1,0], ori2 = [1,0,1,0,-4,0,1,0,1], new = [1,1,1,1,-8,1,1,1,1] or [-1,-1,-1,-1,8,-1,-1,-1,-1]`
+
+<img src='/img/laplacian_ori.png' width = '332' height = '300'><img src='/img/laplacian_new.png' width = '332' height = '300'>
+
+We can not say which one is better, it depends on different cases.
+
+### Pyramid
+
+***Downsampling***
+
+The main point of pyramid is downsampling the image. Firstly, we should add dummy data to resize the image to `2**n` rows and `2**n` columns, then downsampling the original image to the new image with `2**(n-1)` rows and `2**(n-1)` columns. Continuing the steps above, the shape of the image will be smaller and smaller.
+
+The shape of original image is `[300,332,3]`
+
+<img src='/img/pyramid_ori.png' width = '332' height = '300'>
+
+After reshaping the image, the shape of image is `[512,512,3]`
+
+<img src='/img/pyramid_reshape.png' width = '332' height = '300'>
+
+Downsampling 1 time to the size `[256,256,3]`
+
+<img src='/img/pyramid_1.png' width = '332' height = '300'>
+
+Downsampling 2 times to the size `[128,128,3]`
+
+<img src='/img/pyramid_2.png' width = '332' height = '300'>
+
+Downsampling 3 times to the size `[64,64,3]`
+
+<img src='/img/pyramid_3.png' width = '332' height = '300'>
+
+***Upsampling: Zero Order***
 
 ```python
-def labelComponents(img):
-    row, column, channel = img.shape
-    Matrix = [[0 for x in range(column)] for y in range(row)]
-    for i in range(row):
-        for j in range(column):
-            if img[i,j,0] == 255:
-                Matrix[i][j] = 1
-            else:
-                Matrix[i][j] = 0
-
-    label = 1
-    list = [0,1]
-    for m in range(row):
-        for n in range(column):
-            if Matrix[m][n] == 1:
-                if Matrix[m-1][n] == 0 and Matrix[m][n-1] == 0:
-                    label += 1
-                    list.append(label)
-                    Matrix[m][n] = label
-                elif Matrix[m-1][n] != 0 and Matrix[m][n-1] == 0:
-                    Matrix[m][n] = Matrix[m-1][n]
-                elif Matrix[m-1][n] == 0 and Matrix[m][n-1] != 0:
-                    Matrix[m][n] = Matrix[m][n-1]
-                else:
-                    if Matrix[m-1][n] == Matrix[m][n-1]:
-                        Matrix[m][n] = Matrix[m][n-1]
-                    elif Matrix[m-1][n] > Matrix[m][n-1]:
-                        Matrix[m][n] = Matrix[m][n-1]
-                        list[Matrix[m-1][n]] = Matrix[m][n-1]
-                    else:
-                        Matrix[m][n] = Matrix[m-1][n]
-                        list[Matrix[m][n-1]] = Matrix[m-1][n]
-
-    union(list)
-
-    b = set(list)
-    b1 = [k for k in b]
-    numsofColor = len(b1)
-
-
-    arr = []
-    for x in range(numsofColor):
-        count = random.randint(1,7)
-        if count == 1:
-            x = random.randint(0,255)
-            arr.append([x,0,0])
-        elif count == 2:
-            x = random.randint(0,255)
-            arr.append([0,x,0])
-        elif count == 3:
-            x = random.randint(0,255)
-            arr.append([0,0,x])
-        elif count == 4:
-            x = random.randint(0,255)
-            arr.append([x,x,0])
-        elif count == 5:
-            x = random.randint(0,255)
-            arr.append([x,0,x])
-        elif count == 6:
-            x = random.randint(0,255)
-            arr.append([0,x,x])
-        else:
-            x = random.randint(0,255)
-            arr.append([x,x,x])
-
-  # arr = types of color
-  # b1 = types of labels
-
-    for i in range(row):
-        for j in range(column):
-            for k in range(1,len(b1)):
-                if list[Matrix[i][j]] == b1[k]:
-                    img[i][j] = arr[k]
-    return img
-
-
-def find(i,list):
-    if (i != list[i]):
-        list[i] = find(list[i],list)
-    return list[i]
-
-
-def union(list):
-    i = len(list)-1
-    while i != 1:
-        find(i,list)
-        i  = i - 1
-    return list
+# The original image is:
+[[3 5 7]
+ [2 7 6]
+ [3 4 9]]
+# Padding with 0:
+[[0 0 0 0 0 0 0]
+ [0 3 0 5 0 7 0]
+ [0 0 0 0 0 0 0]
+ [0 2 0 7 0 6 0]
+ [0 0 0 0 0 0 0]
+ [0 3 0 4 0 9 0]
+ [0 0 0 0 0 0 0]]
+# After applying mask[1,1,1,1]:
+[[3 3 5 5 7 7]
+ [3 3 5 5 7 7]
+ [2 2 7 7 6 6]
+ [2 2 7 7 6 6]
+ [3 3 4 4 9 9]
+ [3 3 4 4 9 9]]
 ```
-### Test Part
+Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]`
+
+
+<img src='/img/pyramid_zero.png' width = '332' height = '300'>
+
+***Upsampling: First Order***
 
 ```python
-# np.set_printoptions(threshold=np.inf)
-img = mpimg.imread('/Users/gavin/Desktop/sample4.jpeg')
-# plt.imshow(img, interpolation='nearest')
-img.flags.writeable = True
-
-# rgbToGray(img)
-# smooth_avg(img)
-# salt_pepper(img)
-# smooth_median(img)
-# binary_thresholding(img,180)
-# binary_ptile(img,35)
-# binary_iterative(img)
-# smooth_median(img)
-# smooth_median(img)
-# smooth_median(img)
-# smooth_median(img)
-# histogram(img)
-# labelComponents(img)
-plt.imshow(img)
-# plt.savefig('sample4.png')
-plt.show()
+# The original image is:
+[[3 5 7]
+ [2 7 6]
+ [3 4 9]]
+# Padding with 0:
+[[0 0 0 0 0 0 0]
+ [0 3 0 5 0 7 0]
+ [0 0 0 0 0 0 0]
+ [0 2 0 7 0 6 0]
+ [0 0 0 0 0 0 0]
+ [0 3 0 4 0 9 0]
+ [0 0 0 0 0 0 0]]
+ # After appling mask[0.25,0.5,0.25,0.5,1,0.5,0.25,0.5,0.25]:
+ [[3 4 5 6 7]
+  [3 4 6 6 7]
+  [2 4 7 7 6]
+  [3 4 6 7 8]
+  [3 4 4 7 9]]
 ```
-
-# PyQt5
-
-```python
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFileDialog
-from PyQt5.QtCore import *
-from PyQt5.QtGui import QPixmap, QImage
-
-from test import *
+Using First-Order 3 times to upsample the image to the original size `[512,512,3]`
 
 
-class GUI(QMainWindow):
-
-    def __init__(self, parent =None):
-        super(GUI, self).__init__(parent)
-        self.initUI()
-
-
-    def initUI(self):
-        self.resize(1500,500)
-        self.setWindowTitle('imageProcessing')
-        self.statusBar().showMessage('Author: Fei')
-        self.horizontaol_vertical_box_layout()
-
-
-
-    def horizontaol_vertical_box_layout(self):
-        # label
-
-        self.label_1 = QLabel('Input Image')
-        self.label_1.setAlignment(Qt.AlignCenter)
-        self.label_2 = QLabel('Output Image')
-        self.label_2.setAlignment(Qt.AlignCenter)
-
-        # button
-        button_1 = QPushButton('The Original image')
-        button_1.clicked.connect(self.btn1_clicked)
-
-        button_2 = QPushButton('Use this image')
-        button_2.clicked.connect(self.btn2_clicked)
-
-        button_31 = QPushButton('Salt-Pepper')
-        button_31.clicked.connect(self.btn31_clicked)
-        button_32 = QPushButton('Avg Smooth')
-        button_32.clicked.connect(self.btn32_clicked)
-        button_33 = QPushButton('Median Smooth')
-        button_33.clicked.connect(self.btn33_clicked)
-        button_34 = QPushButton('T Binary')
-        button_34.clicked.connect(self.btn34_clicked)
-        button_35 = QPushButton('P-Tile Binary')
-        button_35.clicked.connect(self.btn35_clicked)
-        button_36 = QPushButton('Iterative Binary')
-        button_36.clicked.connect(self.btn36_clicked)
-        button_37 = QPushButton('Label Component')
-        button_37.clicked.connect(self.btn37_clicked)
-
-        vbox_1 = QVBoxLayout()
-        vbox_1.addWidget(self.label_1)
-        vbox_1.addWidget(button_1)
-
-        vbox_2 = QVBoxLayout()
-        vbox_2.addWidget(self.label_2)
-        vbox_2.addWidget(button_2)
-
-        vbox_3 = QVBoxLayout()
-        vbox_3.addWidget(button_31)
-        vbox_3.addWidget(button_32)
-        vbox_3.addWidget(button_33)
-        vbox_3.addWidget(button_34)
-        vbox_3.addWidget(button_35)
-        vbox_3.addWidget(button_36)
-        vbox_3.addWidget(button_37)
-
-        hbox_1 = QHBoxLayout()
-        hbox_1.addLayout(vbox_1)
-        hbox_1.addLayout(vbox_2)
-        hbox_1.addLayout(vbox_3)
-
-        layout_widget = QWidget()
-        layout_widget.setLayout(hbox_1)
-
-        self.setCentralWidget(layout_widget)
-
-
-    # def btn1_clicked(self,checked):
-    #     self.img1 = QFileDialog.getOpenFileName(self, 'OpenFile','.','Image Files(*.jpg *.jpeg *.png)')[0]
-    #
-    #     image1 = QImage(self.img1)
-    #     self.label_1.setPixmap(QPixmap.fromImage(image1))
-
-
-
-    def btn1_clicked(self,checked):
-        self.img1 = mpimg.imread('/Users/gavin/Desktop/sample4.jpeg')
-        self.img1.flags.writeable = True
-        self.row, self.column, self.channel = self.img1.shape
-        self.bytesPerLine = 3 * self.column
-        qImg = QImage(self.img1.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_1.setPixmap(QPixmap.fromImage(qImg))
-        plt.imshow(self.img1)
-        # plt.savefig('sample4.png')
-        plt.show()
-
-
-    def btn31_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.salt_pepper(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-    def btn32_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.smooth_avg(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-
-    def btn33_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.smooth_median(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-    def btn34_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.binary_thresholding(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-    def btn35_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.binary_ptile(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-    def btn36_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.binary_iterative(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-    def btn37_clicked(self,checked):
-        t = test(self.row, self.column, self.channel)
-        self.img2 = t.labelComponents(self.img1)
-        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_2.setPixmap(QPixmap.fromImage(qImg))
-
-
-    def btn2_clicked(self,checked):
-        self.img1 = self.img2
-        qImg = QImage(self.img1.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
-        self.label_1.setPixmap(QPixmap.fromImage(qImg))
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    gui = GUI()
-    gui.show()
-    sys.exit(app.exec_())
-
-
-```
-
-
-
-
-
-
-
+<img src='/img/pyramid_first.png' width = '332' height = '300'>
