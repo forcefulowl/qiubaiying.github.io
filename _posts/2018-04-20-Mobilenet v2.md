@@ -46,6 +46,12 @@ MobileNetV2:
 
 <img src='/img/mobilenetv2/mobilenetv2_5.png' width='450'>
 
+<img src='/img/mobilenetv2/mobilenetv2_10.png' width='450'>
+
+<img src='/img/mobilenetv2/mobilenetv2_11.png' width='450'>
+
+### Result
+
 <img src='/img/mobilenetv2/mobilenetv2_6.png' width='450'>
 
 <img src='/img/mobilenetv2/mobilenetv2_7.png' width='450'>
