@@ -26,31 +26,31 @@ This paper introduces a new neural network architecture that is specifically tai
 
 ### Depthwise Separable Convolutions
 
-<img src ='mobilenet1.png'>
+<img src ='/img/mobilenetv2/mobilenet1.png'>
 
 ### Linear Bottlenecks
 
 MobileNetV1:
 
-<img src='mobilenetv2_2.png' width='350'>
+<img src='/img/mobilenetv2/mobilenetv2_2.png' width='350'>
 
 MobileNetV2:
 
-<img src='mobilenetv2_3.png' width='350'>
+<img src='/img/mobilenetv2/mobilenetv2_3.png' width='350'>
 
-<img src='mobilenetv2_1.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_1.png' width='450'>
 
 ### Inverted Residual Block
 
-<img src='mobilenetv2_4.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_4.png' width='450'>
 
-<img src='mobilenetv2_5.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_5.png' width='450'>
 
-<img src='mobilenetv2_6.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_6.png' width='450'>
 
-<img src='mobilenetv2_7.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_7.png' width='450'>
 
-<img src='mobilenetv2_8.png' width='450'>
+<img src='/img/mobilenetv2/mobilenetv2_8.png' width='450'>
 
 
 
