@@ -22,7 +22,35 @@ The drive to improve accuracy often comes at a cost: modern state of the art net
 
 This paper introduces a new neural network architecture that is specifically tailored for mobile and resource constrained environments, by significantly decreasing the number of operations and memory needed while retaining the same accuracy.
 
+# Preliminaries, discussion and intuition
 
+### Depthwise Separable Convolutions
+
+<img src ='mobilenet1.png'>
+
+### Linear Bottlenecks
+
+MobileNetV1:
+
+<img src='mobilenetv2_2.png' width='350'>
+
+MobileNetV2:
+
+<img src='mobilenetv2_3.png' width='350'>
+
+<img src='mobilenetv2_1.png' width='450'>
+
+### Inverted Residual Block
+
+<img src='mobilenetv2_4.png' width='450'>
+
+<img src='mobilenetv2_5.png' width='450'>
+
+<img src='mobilenetv2_6.png' width='450'>
+
+<img src='mobilenetv2_7.png' width='450'>
+
+<img src='mobilenetv2_8.png' width='450'>
 
 
 
