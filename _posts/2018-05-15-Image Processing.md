@@ -2,7 +2,7 @@
 layout: post
 title:  Image-Processing
 subtitle:   Computer Graphic
-date:   2018-02-15
+date:   2018-05-15
 author: gavin
 header-img: img/post-bg-ip.jpg
 catalog:    true
@@ -188,5 +188,10 @@ Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]
 ```
 Using First-Order 3 times to upsample the image to the original size `[512,512,3]`
 
-
 <img src='/img/ip/pyramid_first.png' width = '332' height = '300'>
+
+### Steganography
+
+The main purpose of steganography is encoding the text information into a 'cover image' and decoding it.
+
+
