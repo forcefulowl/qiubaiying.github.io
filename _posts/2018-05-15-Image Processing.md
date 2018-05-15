@@ -194,4 +194,64 @@ Using First-Order 3 times to upsample the image to the original size `[512,512,3
 
 The main purpose of steganography is encoding the text information into a 'cover image' and decoding it.
 
+The 'cover image' I use is as follows:
+
+<img src='/img/ip/cat.jpeg'>
+
+#### Embed secret information/TEXT into a 'cover image'
+
+Firstly, we need to convert strings(secret information/TEXT) to the binary format based on their ascii, then we need to change the last n bits of the value of each channel, the channel of this image is [R,G,B].
+
+If we set n as 1, which means we only change the last 1 bit of the value of the channel to store the binary information of the TEXT, the new image is as follows:
+
+<img src='/img/ip/bit1.png' width='300'>
+
+We can not see any difference between this one and the original image.
+
+Let's try to set n as 2 and 3.
+
+<div>
+    <img src='/img/ip/bit2.png' width='300'>
+    <img src='/img/ip/bit3.png' width='300'>
+</div>
+
+we still can not see the difference. Actually for the right one(modify last 3 bits), there's very little differences.
+
+If we set n as 4 and 5.
+
+<div>
+    <img src='/img/ip/bit4.png' width='300'>
+    <img src='/img/ip/bit5.png' width='300'>
+</div>
+
+Now we can see that there's something on left top and right top.
+
+Setting n as 6 and 7.
+
+<div>
+    <img src='/img/ip/bit6.png' width='300'>
+    <img src='/img/ip/bit7.png' width='300'>
+</div>
+
+Now it's very clear that there's something happened on the image.
+
+Setting n as 8.
+
+<img src='/img/ip/bit8.png' width='300'>
+
+Now the top part is totally trash for visulization.
+
+#### Extract secret information/TEXT from a 'cover image'
+
+Now we can extract the last n bits of each channel to get the binary information of the TEXT,(we need to take care of the last channel because maybe we do not need all the last n bits), and then convert the binary information to text.
+
+The secret information is as follows:
+
+<img src='imin.png' width='500'>
+
+And after extracting, the information is as follows:
+
+<img src='imout.png' width='500'>
+
+
 
