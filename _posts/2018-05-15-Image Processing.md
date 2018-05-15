@@ -247,11 +247,11 @@ Now we can extract the last n bits of each channel to get the binary information
 
 The secret information is as follows:
 
-<img src='imin.png' width='500'>
+<img src='/img/ip/imin.png' width='500'>
 
 And after extracting, the information is as follows:
 
-<img src='imout.png' width='500'>
+<img src='/img/ip/imout.png' width='500'>
 
 
 
