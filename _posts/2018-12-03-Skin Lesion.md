@@ -139,7 +139,7 @@ In transfer learning, I choose MobileNet.
 
 The MobileNet model is based on depthwise separable convolutions which is a from of factorized convolutions which factorize a standard convolution into a depthwise convolution and a 1x1 convolution called a pointwise convolution. For MobileNets, the depthwise convolution applies a single filter to each input channel. The pointwise convolutino then applies a 1x1 convolution to combine the outputs of the depthwise convolution. This factorization has the effect of drastically reducing computation and model size.
 
-<img src='/img/mobilenet/mobienet_struc.png'>
+<img src='/img/mobilenet/mobilenet_struc.png'>
 
 
 ### Structure of Model
@@ -490,7 +490,7 @@ model_final.fit_generator(
 ```
 model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0), metrics=['accuracy'])
 ```
-
+<img src='/img/mobilenet/adadelta.png'>
 
 
 
