@@ -505,6 +505,8 @@ model_final.fit_generator(
     callbacks=[early_stop])
 ```
 
+`patience`: number of epochs with no improvement after which training will be stopped.
+
 <img src='/img/mobilenet/early_stop.png'>
 
 ##### Change optimizer
