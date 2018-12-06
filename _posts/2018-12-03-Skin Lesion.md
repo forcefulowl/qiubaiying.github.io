@@ -563,6 +563,14 @@ nb_validation_samples = 3000
 batch_size = 64
 epochs = 50
 
+class_weight = {0: 20.,
+                1: 13.,
+                2: 6.,
+                3: 58.,
+                4: 6.,
+                5: 1.,
+                6: 47.}
+
 model = applications.MobileNet(weights="imagenet", include_top=False, input_shape=(img_width, img_height, 3))
 
 
@@ -639,6 +647,7 @@ model_final.fit_generator(
     validation_data=validation_generator,
     validation_steps=3000//batch_size)
 #    callbacks=[early_stop]
+#    class_weight=class_weight
 
 end = datetime.datetime.now()
 print(end-start)
