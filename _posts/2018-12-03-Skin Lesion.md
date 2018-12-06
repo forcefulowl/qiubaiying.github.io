@@ -361,7 +361,7 @@ predictions = Dense(7, activation="softmax")(x)
 # creating the final model
 model_final = Model(input=model.input, output=predictions)
 ```
-I use 'imagenet' weights as initial weights, 'include_top=False' means remove the fully-connected layer at the top of the network. Because in my case, the total classes is 7.
+I use `imagenet` weights as initial weights, `include_top=False` means remove the fully-connected layer at the top of the network. Because in my case, the total classes is 7.
 
 ```
 model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.SGD(lr=0.001, momentum=0.9), metrics=["accuracy"])
@@ -383,7 +383,7 @@ According to the result, we may suffer overfitting.
 
 ### Overfitting
 
-Firstly I changed 'batch_size', 'learning rate' and 'epoch', but it did not work.
+Firstly I changed `batch_size`, `learning rate` and `epoch`, but it did not work.
 
 ##### Change validation dataset
 
@@ -421,9 +421,9 @@ validation_generator = train_datagen.flow_from_directory(
     subset='validation')
 ```
 
-'validation_split=0.3' means split data to 70% for training and 30% for validation.
+`validation_split=0.3` means split data to 70% for training and 30% for validation.
 
-'subset='training', 'subset='validation' to determine which dataset it use.
+`subset='training`, `subset='validation` to determine which dataset it use.
 
 ##### BatchNormalization
 
