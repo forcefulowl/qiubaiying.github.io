@@ -41,7 +41,23 @@ And the format of the label is as follows:
 
 <img src='/img/mobilenet/2.raw_label.png'>
 
-But if I directly load all of the data into memory that is so memory consuming, even the most state-of-the art configuration won't have enough memory space to process the data the way I used to do it. Meanwhile, the number of training data is not large enough, so I also wanna do Data Augumentation.
+But if I directly load all of the data into memory.
+
+```
+def read_img(img_name):
+    im = Image.open(img_name).convert('RGB')
+    data = np.array(im)
+    return data
+
+images = []
+
+for fn in os.listdir('C:\\Users\gavin\Desktop\ISIC2018_Task3_Training_Input'):
+    if fn.endswith('.jpg'):
+        fd = os.path.join('C:\\Users\gavin\Desktop\ISIC2018_Task3_Training_Input', fn)
+        images.append(read_img(fd))
+```
+
+That is so memory consuming, even the most state-of-the art configuration won't have enough memory space to process the data the way I used to do it. Meanwhile, the number of training data is not large enough, so I also wanna do Data Augumentation.
 
 Firstly, I change the format of the raw data.
 
@@ -496,8 +512,121 @@ model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.adadel
 
 `batch_size=64`, `epoch=50`
 
+##### Others
+
+I tried to freeze some layers and only trained a few layers before.
+
+```
+for layer in model.layers[:5]:
+    layer.trainable = False
+```
+
+The overfitting problem is more serious, I think that's because my dataset is small but very different from the original dataset. I cannot freeze all the layers and train only the classifier.
+
+# Complete Code 
+
+```
+from keras import applications
+from keras.preprocessing.image import ImageDataGenerator
+from keras import optimizers
+from keras.models import Sequential, Model
+from keras.layers import Dropout, Flatten, Dense, BatchNormalization, Activation
+from keras import regularizers
+from keras import backend as k
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, TensorBoard, EarlyStopping
+import datetime
+
+start = datetime.datetime.now()
+
+img_width, img_height = 224, 224
+train_data_dir = "C:\\Users\gavin\Desktop\Train1_M"
+validation_data_dir = "C:\\Users\gavin\Desktop\Test1_M"
+data_dir = 'C:\\Users\gavin\Desktop\whole_M'
+nb_train_samples = 7000
+nb_validation_samples = 3000
+batch_size = 64
+epochs = 50
+
+model = applications.MobileNet(weights="imagenet", include_top=False, input_shape=(img_width, img_height, 3))
 
 
+#for layer in model.layers[:5]:
+#    layer.trainable = False
+
+
+x = model.output
+x = Flatten()(x)
+x = Dense(1024)(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(1024)(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+predictions = Dense(7, activation="softmax")(x)
+
+model.summary()
+
+# creating the final model
+model_final = Model(input=model.input, output=predictions)
+
+# compile the model
+# model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.SGD(lr=0.001, momentum=0.9), metrics=["accuracy"])
+model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0), metrics=['accuracy'])
+
+# Initiate the train and test generators with data Augumentation
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    horizontal_flip=True,
+    fill_mode="nearest",
+    zoom_range=0.3,
+    width_shift_range=0.3,
+    height_shift_range=0.3,
+    rotation_range=30,
+    validation_split=0.3)
+
+
+'''
+test_datagen = ImageDataGenerator(
+    rescale=1./255,
+    horizontal_flip=True,
+    fill_mode="nearest",
+    zoom_range=0.3,
+    width_shift_range=0.3,
+    height_shift_range=0.3,
+    rotation_range=30)
+'''
+
+
+train_generator = train_datagen.flow_from_directory(
+    data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode="categorical",
+    subset='training')
+
+validation_generator = train_datagen.flow_from_directory(
+    data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode="categorical",
+    subset='validation')
+
+# early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
+
+# Train the model
+model_final.fit_generator(
+    train_generator,
+    steps_per_epoch=7000//batch_size,
+    epochs=epochs,
+    validation_data=validation_generator,
+    validation_steps=3000//batch_size)
+#    callbacks=[early_stop]
+
+end = datetime.datetime.now()
+print(end-start)
+```
 
 
 
