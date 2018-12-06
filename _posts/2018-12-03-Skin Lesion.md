@@ -289,6 +289,8 @@ model_final.fit_generator(
     callbacks=[early_stop])
 ```
 
+<img src='/img/mobilenet/early_stop.png'>
+
 ##### Change optimizer
 
 ```
