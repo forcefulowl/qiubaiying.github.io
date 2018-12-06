@@ -35,17 +35,17 @@ The training data consists of 10015 images.
 
 The format of raw data is as follows:
 
-<img src>
+<img src='/img/mobilenet/1.raw_data.png'>
 
 And the format of the label is as follows:
 
-<img src>
+<img src='/img/mobilenet/2.raw_label.png'>
 
 But if I directly load all of the data into memory that is so memory consuming, even the most state-of-the art configuration won't have enough memory space to process the data the way I used to do it. Meanwhile, the number of training data is not large enough, so I also wanna do Data Augumentation.
 
 Firstly, I change the format of the raw data.
 
-<img src>
+<img src='/img/mobilenet/3.new_data.png'>
 
 The code to do that is as follows:
 
@@ -195,7 +195,7 @@ Firstly I changed 'batch_size', 'learning rate' and 'epoch', but it did not work
 
 Because I split training and validation dataset manually, I just choose the last 30% data as validation data.
 
-<img src>
+<img src='/img/mobilenet/4.split_data.png'>
 
 Then I tried to choose the first 30% data as validation data. 
 
