@@ -379,6 +379,8 @@ The result of the model is as follows:
 
 <img src='/img/mobilenet/original.png'>
 
+`batch_size=32`, `epoch=100`, `lr=0.001`
+
 According to the result, we may suffer overfitting.
 
 ### Overfitting
@@ -491,6 +493,8 @@ model_final.fit_generator(
 model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0), metrics=['accuracy'])
 ```
 <img src='/img/mobilenet/adadelta.png'>
+
+`batch_size=64`, `epoch=50`
 
 
 
