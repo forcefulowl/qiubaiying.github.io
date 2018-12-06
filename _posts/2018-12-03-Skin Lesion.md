@@ -124,7 +124,7 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode="categorical")
 
-validation_generator = train_datagen.flow_from_directory(
+validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
@@ -181,6 +181,119 @@ model_final.fit_generator(
 ```
 Because I use `ImageDataGenerator` before, so here I have to use `fit_generator` to train the model.
 
+The result of the model is as follows:
+
+<img src>
+
+According to the result, we may suffer overfitting.
+
+### Overfitting
+
+Firstly I changed 'batch_size', 'learning rate' and 'epoch', but it did not work.
+
+##### Change validation dataset
+
+Because I split training and validation dataset manually, I just choose the last 30% data as validation data.
+
+<img src>
+
+Then I tried to choose the first 30% data as validation data. 
+
+Except above, I thought maybe I should not split them manually, then I changed the ImageDataGenerator so the system can split it auto.
+
+```
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    horizontal_flip=True,
+    fill_mode="nearest",
+    zoom_range=0.3,
+    width_shift_range=0.3,
+    height_shift_range=0.3,
+    rotation_range=30,
+    validation_split=0.3)
+    
+train_generator = train_datagen.flow_from_directory(
+    train_data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode="categorical"
+    subset='training')
+
+validation_generator = train_datagen.flow_from_directory(
+    validation_data_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode="categorical",
+    subset='validation')
+```
+
+'validation_split=0.3' means split data to 70% for training and 30% for validation.
+
+'subset='training', 'subset='validation' to determine which dataset it use.
+
+##### BatchNormalization
+
+I added 'BatchNormalization' after 'Dense' and before 'Activation'.
+
+```
+model = applications.MobileNet(weights="imagenet", include_top=False, input_shape=(img_width, img_height, 3))
+
+x = model.output
+x = Flatten()(x)
+x = Dense(1024)(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(1024)(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+predictions = Dense(7, activation="softmax")(x)
+```
+
+##### L1, L2 Regularization
+
+I also tried l1, l2 Regularization in 'Dense'
+
+```
+from keras import regularizers
+
+model = applications.MobileNet(weights="imagenet", include_top=False, input_shape=(img_width, img_height, 3))
+
+x = model.output
+x = Flatten()(x)
+x = Dense(1024, kernel_regularizer=regularizers.l2(0.01), activity_regularizer=regularizers.l2(0.01))(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(1024, kernel_regularizer=regularizers.l2(0.01), activity_regularizer=regularizers.l2(0.01))(x)
+x = BatchNormalization()(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
+predictions = Dense(7, activation="softmax")(x)
+```
+
+##### Early Stop
+
+```
+from keras.callbacks import EarlyStopping
+
+early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
+
+model_final.fit_generator(
+    train_generator,
+    steps_per_epoch=7000//batch_size,
+    epochs=epochs,
+    validation_data=validation_generator,
+    validation_steps=3000//batch_size,
+    callbacks=[early_stop])
+```
+
+##### Change optimizer
+
+```
+model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.adadelta(lr=1.0, rho=0.95, epsilon=None, decay=0.0), metrics=['accuracy'])
+```
 
 
 
