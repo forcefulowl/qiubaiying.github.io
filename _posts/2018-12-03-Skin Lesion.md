@@ -135,6 +135,10 @@ validation_generator = test_datagen.flow_from_directory(
 
 For my case, I use Transfer Learning. Transfer learning, is a research problem in machine learning that focuses on storing knowledge gained while solving one problem and applying it to a different but related problem. I use transfer learning because it's rare to get enough dataset, so, using pre-trained network weights as initialisations or a fixed feature extractor helps in solving problems.
 
+In transfer learning, I choose MobileNet.
+
+The MobileNet model is based on depthwise separable convolutions which is a from of factorized convolutions which factorize a standard convolution into a depthwise convolution and a 1x1 convolution called a pointwise convolution. For MobileNets, the depthwise convolution applies a single filter to each input channel. The pointwise convolutino then applies a 1x1 convolution to combine the outputs of the depthwise convolution. This factorization has the effect of drastically reducing computation and model size.
+
 
 ### Structure of Model
 
