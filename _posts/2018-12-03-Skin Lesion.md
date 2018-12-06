@@ -31,6 +31,16 @@ The input data are dermoscopic lesion images in JPEG format.
 
 The training data consists of 10015 images.
 
+```
+AKIEC: 327
+BCC: 514
+BKL: 1099
+DF: 115
+MEL: 1113
+NV: 6705
+VASC: 142
+```
+
 The format of raw data is as follows:
 
 <img src='/img/mobilenet/1.raw_data.png'>
