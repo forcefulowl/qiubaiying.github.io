@@ -183,7 +183,7 @@ Because I use `ImageDataGenerator` before, so here I have to use `fit_generator`
 
 The result of the model is as follows:
 
-<img src>
+<img src='/img/mobilenet/original.png'>
 
 According to the result, we may suffer overfitting.
 
