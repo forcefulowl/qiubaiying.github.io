@@ -123,13 +123,19 @@ train_datagen = ImageDataGenerator(
 
 test_datagen = ImageDataGenerator(
     rescale=1./255,
-    horizontal_flip = True,
+    horizontal_flip=True,
     fill_mode="nearest",
     zoom_range=0.3,
     width_shift_range=0.3,
     height_shift_range=0.3,
     rotation_range=30)
 ```
+
+`horizontal_flip`: Randomly flip inputs horizontally.
+`zoom_range`: Range for random zoom.
+`width_shift_range`: fraction of total width.
+`height_shift_range`: fraction of total height.
+`rotation_range`: Degree range for random rotations.
 
 Then achieve ImageGenerator:
 
