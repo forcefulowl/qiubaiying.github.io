@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      Git指令整理
+title:      leetcode sql
 subtitle:   不适合阅读的整理的一些个人常用的 Git 指令
-date:       2017-12-18
+date:       2021-06-01
 author:     gavin
 header-img: img/post-bg-re-vs-ng2.jpg
 catalog: true
