@@ -14,7 +14,8 @@ tags:
 
 ### 找连续区间1285
 
-`SELECT
+···
+SELECT
     MIN(log_id) as START_ID,
     MAX(log_id) as END_ID
 FROM
@@ -22,6 +23,7 @@ FROM
         log_id, 
         log_id - row_number() OVER(ORDER BY log_id) as num
     FROM Logs) t
-GROUP BY num`
+GROUP BY num
+···
 
 
