@@ -12,6 +12,19 @@ tags:
 
 >随便整理的一些自用的sql指令
 
+### 找中位数569
+
+```
+select Id,Company,Salary from 
+(
+select Id,Company,Salary,
+row_number() over(partition by Company order by Salary) as rnk,
+count(Salary) over(partition by Company) as cnt from Employee 
+) t 
+where rnk in (cnt/2,cnt/2+1,cnt/2+0.5)
+```
+
+
 ### 找连续区间1285
 
 ```
