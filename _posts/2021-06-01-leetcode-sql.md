@@ -8,6 +8,7 @@ header-img: img/post-bg-re-vs-ng2.jpg
 catalog: true
 tags:
     - 数据库
+    - Database
 ---
 
 >随便整理的一些自用的sql指令
