@@ -7,7 +7,7 @@ author:     gavin
 header-img: img/post-bg-re-vs-ng2.jpg
 catalog: true
 tags:
-    - 终端
+    - 数据库
 ---
 
 >随便整理的一些自用的sql指令
